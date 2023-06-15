@@ -1,2 +1,1 @@
-# randomFunctionsAndStuff
- random stuff I wrote to make my life easier
+a game i'm making :skull:
