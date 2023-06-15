@@ -5,17 +5,18 @@
 
 // The whole damn script
 const LINEWIDTH = 50;
-var waiting;
+var waiting = false;
 var start;
 var end;
 var script = [
 	[
 		"test"
-	],[
+	],[ // 001 Intro 1
+		"",
 		["", "Esper: Rise up"],
 		"You've never seen any place like this before...",
 		"It's so... dark...",
-		"However, a memory surges within you...",
+		"However, something memory surges within you...",
 		"You instinctively reach out, and...",
 		"You got UMBRELLA KEYRING!",
 		"You equipped UMBRELLA KEYRING!",
@@ -27,6 +28,11 @@ var script = [
 		"You equipped STRANGE KEYRING!"
 	]
 ];
+
+var story = [];
+for(i = 0; i < 1000; i++) {
+	story[i] = 0;
+}
 
 function formatText(x) {
 	let output = x;
@@ -43,12 +49,14 @@ function runChoice(x, y, n) {}
 // Formats text and shows it with the in game windows
 // If the parameter is an array, a choice is presented instead
 function mapText(x) {
-	waiting = true;
+	
 	console.log(script[0][0]);
 	let z = script[$gameMap._mapId][x];
 	
 	$gameMessage.setBackground(2);
 	$gameMessage.setPositionType(2);
+	$gameMessage.setChoiceBackground(2);
+	$gameMessage.setChoicePositionType(2);
 	if(Array.isArray(z)) {
 		$gameMessage.add(formatText(z[0]));
 		z.splice(0, 1);
@@ -60,8 +68,20 @@ function mapText(x) {
 	$gameMap._interpreter.setWaitMode('message');
 	console.log("done");
 }
-function printText(x, y = x) {
-	start = x;
-	end = y;
-	$gameTemp.reserveCommonEvent(4);
+function massText(x, y = x) {
+	$gameVariables.setValue(3, x);
+	$gameVariables.setValue(4, y);
+	$gameMap._interpreter._params = [4];
+	$gameMap._interpreter.command117();
+}
+
+function storyText(x, y = x) {
+	if(story[$gameMap._mapId] < x) {
+		massText(x, y);
+		story[$gameMap._mapId] = x;
+	}
+}
+
+function storyTick() {
+	story[$gameMap._mapId]++;
 }

@@ -1,7 +1,31 @@
-let realItems = [];
-let realItemQ = [];
-let cursorPos = 0;
+/*
+	This file (menu.js) contains all the functions relating to the pause menu, including;
+	-Creating and drawing the menu
+	-Controller for cursor and menu animations
+	-Lists containing current player items
+*/
+// Declare vars
+var realItems = [];
+var realItemQ = [];
+var cursorPos = 0;
+var currentFrame = 0
+var counter = 0;
 
+function intMenu() {
+	$gameScreen.startTint([0, 0, 0, 255], 10);
+	CallPluginCommand("createFilter menuBlur blur 21");
+	$gameScreen.showPicture(1, "menuTop", 0, 0, 0, 100, 100, 255, 0);
+}
+
+function closeMenu() {
+	$gameScreen.startTint([0, 0, 0, 0], 10);
+	CallPluginCommand("eraseFilter menuBlur");
+	for(let i = 1; i <= 6; i++) {
+		$gameScreen.showPicture(i, "clear", 0, 9999, 9999, 0, 0, 0, 0);
+	}
+}
+
+// Main functions
 function saveRealItems() {
 	realItems = [];
 	realItems = $gameParty.allItems();
@@ -28,39 +52,40 @@ function displayRealItems() {
 	}
 }	
 
-function intMenu() {
-	cursorPos = 0;
-	$gameScreen.showPicture(1, "cursor", 0, 50, 50, 100, 100, 255, 0);
-}
+
 function menuController() {
-	let x = 0;
-	let y = 0;
-	console.log(Input.isTriggered('right'));
-	if(Input.isTriggered('right')) {
+	if($gameSwitches.value(2)) {
+	currentFrame++;
+	if(currentFrame > 59) {
+		currentFrame = 0;
+	}
+	let tempFrame = Math.floor(currentFrame/3)
+	
+	if(Input.isTriggered('down')) {
 		cursorPos++;
 		if(cursorPos > 3) {
 			cursorPos = 0;
 		}
-	} else if(Input.isTriggered('left')) {
+	} else if(Input.isTriggered('up')) {
 		cursorPos = cursorPos - 1;
 		if(cursorPos < 0) {
 			cursorPos = 3;
 		}
 	}
-	console.log(cursorPos);
-	if(cursorPos == 0) {
-		x = 0;
-		y = 0;
-	} else if(cursorPos == 1) {
-		x = 0;
-		y = 4;
-	} else if(cursorPos == 2) {
-		x = 4;
-		y = 4;
-	} else {
-		x = 13;
-		y = 4;
-	}
-	console.log(cursorPos);
-	$gameScreen.picture(1).move(0, x*48, y*48, 100, 100, 255, 0, 1);
+	console.log($gameSwitches.value(2));
+		console.log("got frame");
+		$gameScreen.showPicture(6, "cursor", 0, 88, 366 + (cursorPos * 45), 100, 100, 255, 0);
+		for(let i = 0; i < 4; i++) {
+			if(i != cursorPos) {
+				$gameScreen.showPicture(i + 2, "menuTopOptions(1x4)", 0, 93, 360 + (i * 45), 100, 100, 255, 0);
+				$gameScreen.picture(i + 2).setSpritesheetFrame(i);
+			}
+		}
+		if(tempFrame < 10) {
+			$gameScreen.showPicture(cursorPos + 2, "menuTopOptions(1x4)", 0, 122 + tempFrame, 360 + (cursorPos * 45), 100, 100, 255, 0);
+		} else {
+			$gameScreen.showPicture(cursorPos + 2, "menuTopOptions(1x4)", 0, 122 + 20 - tempFrame, 360 + (cursorPos * 45), 100, 100, 255, 0);
+		}
+		$gameScreen.picture(cursorPos + 2).setSpritesheetFrame(cursorPos);
+	};
 };

@@ -43,7 +43,6 @@ function tree(
 	}
 }
 */ 
-
 function arraySum(x) {
 	let sum = 0;
 	
@@ -51,4 +50,35 @@ function arraySum(x) {
 		sum = sum + x[i];
 	}
 	return sum;
+}
+
+function movePlayer(x, y, map = $gameMap._mapId) {
+	$gamePlayer.reserveTransfer(map, x, y, 2, 2);
+	console.log(x);
+}
+
+function jump() {
+	let x = 0;
+	let y = 0;
+	let dir = $gamePlayer.direction();
+	
+	if(dir == 2) {
+		y = 2;
+	} else if(dir == 4) {
+		x = 2;
+	} else if(dir == 6) {
+		x = -2;
+	} else if(dir == 8) {
+		y = -2;
+	}
+	
+	$gamePlayer.jump(x, y);
+	$gameMap._interpreter.setWaitMode('jumping');
+}
+
+function setEventImg(x, y, z) {
+	$gameMap.event(x).setDirection(Math.floor((y%12/3+1)*2));
+	$gameMap.event(x).setImage(z,Math.floor(y/12));
+	$gameMap.event(x)._originalPattern = y%3
+	$gameMap.event(x).resetPattern();
 }
