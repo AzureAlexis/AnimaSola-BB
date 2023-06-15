@@ -25,7 +25,9 @@ var script = [
 		"You got FADED DICE!",
 		"You equipped FADED DICE!",
 		"You got STRANGE KEYRING!",
-		"You equipped STRANGE KEYRING!"
+		"You equipped STRANGE KEYRING!",
+		"You couldn't open the door.\n\nIt's not locked, but Esper refuses to open it",
+		"You hear a faint click"
 	]
 ];
 
@@ -33,15 +35,18 @@ var story = [];
 for(i = 0; i < 1000; i++) {
 	story[i] = 0;
 }
-
+s
 function formatText(x) {
-	let output = x;
-	let i = LINEWIDTH;
-	while(i < x.length) {
-		output = output.substring(0, i + (i / LINEWIDTH * 2) - 2) + "\n" + output.substring(i + (i / LINEWIDTH * 2) - 2);
-		i = i + LINEWIDTH;
+	if(x.indexOf("\n") == -1) {
+		let output = x;
+		let i = LINEWIDTH;
+		while(i < x.length) {
+			output = output.substring(0, i + (i / LINEWIDTH * 2) - 2) + "\n" + output.substring(i + (i / LINEWIDTH * 2) - 2);
+			i = i + LINEWIDTH;
+		}
+		return output;
 	}
-	return output;
+	return x;
 }
 
 function runChoice(x, y, n) {}
