@@ -1,5 +1,3 @@
-
-
 function CommandLine() {
 	this.initialize.apply(this, arguments);
 }

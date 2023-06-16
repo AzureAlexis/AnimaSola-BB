@@ -35,7 +35,7 @@ var story = [];
 for(i = 0; i < 1000; i++) {
 	story[i] = 0;
 }
-s
+
 function formatText(x) {
 	if(x.indexOf("\n") == -1) {
 		let output = x;
@@ -87,6 +87,6 @@ function storyText(x, y = x) {
 	}
 }
 
-function storyTick() {
-	story[$gameMap._mapId]++;
+function storyTick(x = 1) {
+	story[$gameMap._mapId] = story[$gameMap._mapId] + x;
 }
