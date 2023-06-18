@@ -13,7 +13,7 @@ var script = [
 		"test"
 	],[ // 001 Intro 1
 		"",
-		["", "Esper: Rise up"],
+		["test", ["Esper: Rise up", "test"]],
 		"You've never seen any place like this before...",
 		"It's so... dark...",
 		"However, something memory surges within you...",
@@ -61,16 +61,15 @@ function mapText(x) {
 	$gameMessage.setBackground(2);
 	$gameMessage.setPositionType(2);
 	$gameMessage.setChoiceBackground(2);
-	$gameMessage.setChoicePositionType(2);
+	$gameMessage.setChoicePositionType(1);
 	if(Array.isArray(z)) {
 		$gameMessage.add(formatText(z[0]));
-		z.splice(0, 1);
-		$gameMessage.setChoices(z, 0);
+		$gameMessage.setChoices(z[1], 0);
 		$gameMessage.setChoiceCallback(n => {runChoice($gameMap.mapId(), x, n);});
 	} else {
 		$gameMessage.add(formatText(z));
 	}
-	$gameMap._interpreter.setWaitMode('message');
+	// $gameMap._interpreter.setWaitMode('message');
 	console.log("done");
 }
 function massText(x, y = x) {
