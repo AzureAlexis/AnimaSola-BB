@@ -89,3 +89,22 @@ function menuController() {
 		$gameScreen.picture(cursorPos + 2).setSpritesheetFrame(cursorPos);
 	};
 };
+
+Scene_Map.prototype.updateScene = function() {
+    this.checkGameover();
+    if (!SceneManager.isSceneChanging()) {
+        this.updateTransferPlayer();
+    }
+    if (!SceneManager.isSceneChanging()) {
+        this.updateEncounter();
+    }
+    if (!SceneManager.isSceneChanging()) {
+        this.updateCallMenu();
+    }
+    if (!SceneManager.isSceneChanging()) {
+        this.updateCallDebug();
+    }
+	if(!((SceneManager.isSceneChanging()) || ($gameMap.isEventRunning())) && Input.isTriggered('ok')) {
+		mapText(0, 0);
+	}
+};

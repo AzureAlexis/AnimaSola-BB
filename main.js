@@ -43,6 +43,8 @@ function tree(
 	}
 }
 */ 
+$gameSystem.disableMenu();
+
 function arraySum(x) {
 	let sum = 0;
 	
@@ -52,8 +54,8 @@ function arraySum(x) {
 	return sum;
 }
 
-function movePlayer(x, y, map = $gameMap._mapId) {
-	$gamePlayer.reserveTransfer(map, x, y, 2, 2);
+function movePlayer(x, y, map = $gameMap._mapId, z = 2) {
+	$gamePlayer.reserveTransfer(map, x, y, 2, z);
 	console.log(x);
 }
 

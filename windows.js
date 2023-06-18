@@ -4,11 +4,11 @@
 Window_ChoiceList.prototype.updatePlacement = function() { 
 	var messageY = this._messageWindow.y;
 	this.width = this.windowWidth();
-	this.height = this.windowHeight();   
+	this.height = this.windowHeight();
 	
     if ($gameMessage.choicePositionType() == 1) {
-		this.x = (Graphics.boxWidth - this.width) / 2;
-		this.y = 420;
+		this.x = 112;
+		this.y = 408;
 	} else {
 		this.x = Graphics.boxWidth - this.width;
 		if (messageY >= Graphics.boxHeight / 2) {
@@ -77,10 +77,22 @@ Window_ChoiceList.prototype.windowWidth = function() {
 	if ($gameMessage.choicePositionType() == 1) {
 		var choices = $gameMessage.choices();
 		var numLines = choices.length;
-		var width = (this.maxChoiceWidth() + this.padding * 2)*choices.length;
+		var width = (this.maxChoiceWidth() + 10 * 2)*choices.length;
 		return Math.min(width, Graphics.boxWidth*2);
 	} else {
-		var width = this.maxChoiceWidth() + this.padding * 2;
+		var width = this.maxChoiceWidth() + 10 * 2;
 		return Math.min(width, Graphics.boxWidth);
 	}
 }
+
+Window_ChoiceList.prototype.maxChoiceWidth = function() {
+    var maxWidth = 60;
+    var choices = $gameMessage.choices();
+    for (var i = 0; i < choices.length; i++) {
+        var choiceWidth = this.textWidthEx(choices[i]) + 10 * 2;
+        if (maxWidth < choiceWidth) {
+            maxWidth = choiceWidth;
+        }
+    }
+    return maxWidth;
+};
