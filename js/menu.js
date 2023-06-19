@@ -1,8 +1,5 @@
 /*
-	This file (menu.js) contains all the functions relating to the pause menu, including;
-	-Creating and drawing the menu
-	-Controller for cursor and menu animations
-	-Lists containing current player items
+	Not much right now, but will eventually contain menu code
 */
 
 // Triggers menu upon pressing confirm key while targeting nothing
