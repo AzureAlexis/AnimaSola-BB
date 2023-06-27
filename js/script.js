@@ -25,7 +25,6 @@ for(i = 0; i < 1000; i++) {
 	
 */
 function runChoice(x, y, n) {
-	// console.log(x + " " + y + " " + n); // Debug use only
 	switch(x) {
 	case 1:
 		switch(x) {
