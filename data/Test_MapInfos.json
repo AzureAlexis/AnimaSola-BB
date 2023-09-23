@@ -1,0 +1,19 @@
+[
+null,
+{"id":1,"expanded":true,"name":"Umbra F1","order":1,"parentId":0,"scrollX":720.6666666666666,"scrollY":994},
+{"id":2,"expanded":true,"name":"The Fall","order":2,"parentId":1,"scrollX":719.1111111111111,"scrollY":389.3333333333333},
+{"id":3,"expanded":true,"name":"Umbra B2","order":3,"parentId":1,"scrollX":1139,"scrollY":633},
+{"id":4,"expanded":true,"name":"Home: Bedroom","order":15,"parentId":6,"scrollX":1139,"scrollY":633},
+{"id":5,"expanded":true,"name":"Home F2","order":16,"parentId":6,"scrollX":1139,"scrollY":633},
+{"id":6,"expanded":true,"name":"Home F1","order":14,"parentId":0,"scrollX":1139,"scrollY":633},
+{"id":7,"expanded":true,"name":"Anima Park: By home","order":9,"parentId":8,"scrollX":1131,"scrollY":1287},
+{"id":8,"expanded":true,"name":"Anima Park: Town center","order":8,"parentId":0,"scrollX":1131,"scrollY":798},
+{"id":9,"expanded":true,"name":"Anima Park: Train Station","order":10,"parentId":8,"scrollX":1131,"scrollY":640},
+{"id":10,"expanded":false,"name":"Anima Park: School","order":11,"parentId":8,"scrollX":1139,"scrollY":633},
+{"id":11,"expanded":false,"name":"School: Lunchroom","order":5,"parentId":0,"scrollX":1139,"scrollY":633},
+{"id":12,"expanded":true,"name":"School: Courtyard","order":7,"parentId":11,"scrollX":720.8888888888889,"scrollY":1068.4444444444443},
+{"id":13,"expanded":false,"name":"School: Left Classrooms F1","order":6,"parentId":11,"scrollX":720.8888888888889,"scrollY":945.7777777777778},
+{"id":14,"expanded":false,"name":"Umbra B3","order":4,"parentId":1,"scrollX":1131,"scrollY":633},
+{"id":15,"expanded":true,"name":"Town: River","order":12,"parentId":8,"scrollX":1139,"scrollY":633},
+{"id":16,"expanded":false,"name":"Lake","order":13,"parentId":15,"scrollX":1139,"scrollY":633}
+]

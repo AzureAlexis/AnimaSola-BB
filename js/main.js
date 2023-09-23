@@ -1,6 +1,9 @@
-/*
-	Main functions relevent to this game, mostly initilization ones
-	DONT EDIT THIS UNLESS YOU KNOW WHAT YOURE DOING!!!
-*/
+//=============================================================================
+// main.js
+//=============================================================================
 
-var powerOfFriendship = 120;
+PluginManager.setup($plugins);
+
+window.onload = function() {
+    SceneManager.run(Scene_Boot);
+};

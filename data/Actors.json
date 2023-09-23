@@ -1,0 +1,7 @@
+[
+null,
+{"id":1,"battlerName":"","characterIndex":0,"characterName":"esper","classId":1,"equips":[1,1],"faceIndex":0,"faceName":"","traits":[{"code":51,"dataId":10,"value":1}],"initialLevel":1,"maxLevel":99,"name":"Esper","nickname":"","note":"","profile":""},
+{"id":2,"battlerName":"","characterIndex":0,"characterName":"luna","classId":2,"equips":[11,0],"faceIndex":0,"faceName":"","traits":[{"code":51,"dataId":6,"value":1}],"initialLevel":1,"maxLevel":99,"name":"Luna","nickname":"","note":"","profile":""},
+{"id":3,"battlerName":"","characterIndex":0,"characterName":"jake","classId":3,"equips":[21,0],"faceIndex":0,"faceName":"","traits":[{"code":51,"dataId":4,"value":1}],"initialLevel":1,"maxLevel":99,"name":"Jake","nickname":"","note":"","profile":""},
+{"id":4,"battlerName":"","characterIndex":0,"characterName":"kayla","classId":4,"equips":[31,0,0,0,0],"faceIndex":0,"faceName":"","traits":[{"code":51,"dataId":7,"value":1}],"initialLevel":1,"maxLevel":99,"name":"Kayla","nickname":"","note":"","profile":""}
+]
