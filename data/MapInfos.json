@@ -14,6 +14,6 @@ null,
 {"id":12,"expanded":true,"name":"School: Courtyard","order":7,"parentId":11,"scrollX":720.8888888888889,"scrollY":1068.4444444444443},
 {"id":13,"expanded":false,"name":"School: Left Classrooms F1","order":6,"parentId":11,"scrollX":720.8888888888889,"scrollY":945.7777777777778},
 {"id":14,"expanded":false,"name":"Umbra B3","order":4,"parentId":1,"scrollX":1131,"scrollY":633},
-{"id":15,"expanded":true,"name":"Town: River","order":12,"parentId":8,"scrollX":1131,"scrollY":633},
+{"id":15,"expanded":true,"name":"Town: River","order":12,"parentId":8,"scrollX":1139,"scrollY":633},
 {"id":16,"expanded":false,"name":"Lake","order":13,"parentId":15,"scrollX":1139,"scrollY":633}
 ]
