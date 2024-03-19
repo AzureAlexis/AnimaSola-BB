@@ -44,8 +44,54 @@ Scene_Battle.prototype.createSkillWindow = function() {
 // Runs every frame, updates window positions
 Scene_Battle.prototype.updateWindowPositions = function() {};
 
-// Controlls chain during attacks
+BattleManager.update = function() {
+    if (!this.isBusy() && !this.updateEvent()) {
+        switch (this._phase) {
+        case 'start':
+            this.startInput();
+            break;
+        case 'turn':
+            this.updateTurn();
+            break;
+        case 'action':
+            this.updateAction();
+            break;
+        case 'turnEnd':
+            this.updateTurnEnd();
+            break;
+        case 'battleEnd':
+            this.updateBattleEnd();
+            break;
+        }
+    }
+};
 
+BattleManager.updateEvent = function() {
+    switch (this._phase) {
+        case 'start':
+			return this.updateEventMain();
+        case 'turn':
+        case 'turnEnd':
+            if (this.isActionForced()) {
+                this.processForcedAction();
+			}
+            return true;
+    }
+    return this.checkAbort();
+};
+
+BattleManager.updateEventMain = function() {
+    $gameTroop.updateInterpreter();
+    $gameParty.requestMotionRefresh();
+    if ($gameTroop.isEventRunning() || this.checkBattleEnd()) {
+        return true;
+    }
+    $gameTroop.setupBattleEvent();
+    if ($gameTroop.isEventRunning() || SceneManager.isSceneChanging()) {
+        return true;
+    }
+    return false;
+};
 
 /*----------------------------------------------------------------------
 	Start phase
@@ -64,6 +110,16 @@ BattleManager.startBattle = function() {
 	Input phase
 	These run when the player is selecting a move
 ----------------------------------------------------------------------*/
+
+BattleManager.startInput = function() {
+    this._phase = 'input';
+    this._actionBattlers.makeActions();
+    this.clearActor();
+    if (!$gameParty.canInput()) {
+        this.startTurn();
+    }
+};
+
 Scene_Battle.prototype.changeInputWindow = function() {
     if (BattleManager.isInputting()) {
         if (BattleManager.actor()) {
@@ -119,11 +175,9 @@ BattleManager.clearActor = function() {
 		$gameTroop.increaseTurn();
 	}
 };
+
 BattleManager.selectNextCommand = function() {
-	if(this._actorIndex >= 0) {
-		this._subject = this._actionBattlers[this._actorIndex];
-		this.startTurn();
-	}
+	this.startTurn();
 }
 
 BattleManager.getNextSubject = function() {
