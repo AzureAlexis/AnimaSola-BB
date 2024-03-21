@@ -3,7 +3,8 @@
 	DONT EDIT THIS UNLESS YOU KNOW WHAT YOURE DOING!!!
 */
 
-diffReturn = function(i) {
+// Returns the current difficulty
+getDifficulty = function(i) {
 	switch(i) {
 	case 0:
 		return "Easy";
@@ -16,7 +17,7 @@ diffReturn = function(i) {
 	}
 }
 
-modeReturn = function(i) {
+getGamemode = function(i) {
 	switch(i) {
 	case 0:
 		return "Standard";

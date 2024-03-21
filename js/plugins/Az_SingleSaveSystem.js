@@ -50,7 +50,7 @@ Window_SavePreview.prototype.initialize = function(x, y) {
 		let name = "'" + info.actors._data["@a"][1]._name + "'";
 		let playtime = DataManager.loadGlobalInfo()[1].playtime;
 		let lv = "LV " + info.actors._data["@a"][1]._level;
-		let diff = diffReturn(info.variables._data["@a"][3]) + " (" + modeReturn(info.variables._data["@a"][4]) + ")";
+		let diff = getDifficulty(info.variables._data["@a"][3]) + " (" + getGamemode(info.variables._data["@a"][4]) + ")";
 		let mapName = $dataMapInfos[info.map._mapId].name;
 		if(mapName.substring(0, 1) == "?") {
 			mapName = "???"
