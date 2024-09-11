@@ -4672,7 +4672,7 @@ Window_MapName.prototype.initialize = function() {
 };
 
 Window_MapName.prototype.windowWidth = function() {
-    return 720;
+    return 360;
 };
 
 Window_MapName.prototype.windowHeight = function() {

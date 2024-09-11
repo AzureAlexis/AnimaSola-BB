@@ -28,6 +28,7 @@ BattleManager.update = function() {
             break;
         }
     } else if(this._actionBattlers[this._actorIndex] instanceof Game_Actor) {
+		console.log("chaining");
 		this.chainController();
 	}
 };

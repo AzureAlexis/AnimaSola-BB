@@ -58,19 +58,7 @@ Window_Selectable.prototype.currentExt = function() {
 	Game_Message
 	Contains the text to be displayed in textboxes
 ----------------------------------------------------------------------*/
-Game_Message.prototype.allText = function() {
-	let output = "";
-	
-	for(let i = 0; i < 3; i++) {
-		if(i < this._texts.length) {
-			output = output + this._texts[i];
-		}
-		output = output + "\n";
-	}
-	output = output + "\\c[8]Esper:";
-	
-    return output;
-};
+
 Game_Message.prototype.isChoice = function() {
     return this._choices.length > 0;
 };
@@ -79,25 +67,7 @@ Game_Message.prototype.isChoice = function() {
 	WindowMessage
 	The main textbox of the game
 ----------------------------------------------------------------------*/
-Window_Message.prototype.startInput = function() {
-    if ($gameMessage.isChoice()) {
-        this._choiceWindow.start();
-        return true;
-    } else if ($gameMessage.isNumberInput()) {
-        this._numberWindow.start();
-        return true;
-    } else if ($gameMessage.isItemChoice()) {
-        this._itemWindow.start();
-        return true;
-    } else if (this.canStart()) {
-		$gameMessage.setChoicePositionType(2);
-		$gameMessage.setChoices(["=>"], 0, 0);
-		this._choiceWindow.start();
-        return true;
-    } else {
-		return false;
-	}
-};
+
 Window_Message.prototype.initialize = function() {
     var width = this.windowWidth();
     var height = this.windowHeight();
@@ -302,18 +272,7 @@ Window_BattleEnemy.prototype.maxCols = function() {
 	Shows party status during battle
 ----------------------------------------------------------------------*/
 Window_BattleStatus.prototype.drawGaugeArea = function(rect, actor) {
-    if ($dataSystem.optDisplayTp) {
-        this.drawGaugeAreaWithTp(rect, actor);
-    } else {
-        this.drawGaugeAreaWithoutTp(rect, actor);
-    }
-};
-
-Window_BattleStatus.prototype.drawGaugeAreaWithTp = function(rect, actor) {
-	this.drawActorMp(actor, this.width - actor.mmp * 3, this.height - 88, actor.mmp * 3);
-    this.drawActorHp(actor, this.width - actor.mhp * 3, this.height - 100, actor.mhp * 3);
-	this.drawActorTp(actor, this.width - actor.mmp * 3, this.height - 86, actor.mhp * 3);
-	this.drawText(actor.hp, this.width - 80, this.height - 95, 72);
+	
 };
 
 Window_BattleStatus.prototype.drawBasicArea = function(rect, actor) {

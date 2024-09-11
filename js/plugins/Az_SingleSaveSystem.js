@@ -1,3 +1,5 @@
+var lineHeight = 36;
+
 /*----------------------------------------------------------------------
 	Window_SavePrompt
 	Asks the player what to do during save screen
@@ -177,6 +179,3 @@ Scene_Title.prototype.commandContinue = function() {
     }
     SceneManager.goto(Scene_Map);
 };
-
-
-

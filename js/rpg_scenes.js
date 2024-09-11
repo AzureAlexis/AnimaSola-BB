@@ -1244,6 +1244,17 @@ Scene_Item.prototype.createCategoryWindow = function() {
     this.addWindow(this._categoryWindow);
 };
 
+Scene_Item.prototype.createItemWindow = function() {
+    var wy = this._categoryWindow.y + this._categoryWindow.height;
+    var wh = Graphics.boxHeight - wy;
+    this._itemWindow = new Window_ItemList(0, wy, Graphics.boxWidth, wh);
+    this._itemWindow.setHelpWindow(this._helpWindow);
+    this._itemWindow.setHandler('ok',     this.onItemOk.bind(this));
+    this._itemWindow.setHandler('cancel', this.onItemCancel.bind(this));
+    this.addWindow(this._itemWindow);
+    this._categoryWindow.setItemWindow(this._itemWindow);
+};
+
 Scene_Item.prototype.user = function() {
     var members = $gameParty.movableMembers();
     var bestActor = members[0];

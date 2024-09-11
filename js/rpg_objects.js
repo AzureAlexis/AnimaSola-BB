@@ -738,7 +738,7 @@ Game_Screen.prototype.eraseBattlePictures = function() {
 };
 
 Game_Screen.prototype.maxPictures = function() {
-    return 1000;
+    return 100;
 };
 
 Game_Screen.prototype.startFadeOut = function(duration) {

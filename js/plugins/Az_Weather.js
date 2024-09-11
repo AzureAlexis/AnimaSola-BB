@@ -47,7 +47,7 @@ Az_WeatherController.createSprites = function(type) {
 		let x = Math.floor(Math.random() * Graphics.boxWidth);
 		let y = Math.floor(Math.random() * Graphics.boxHeight);
 		
-		Az_WeatherSprites[i] = new Az_Sprite(x, y);
+		Az_WeatherSprites[i] = new Sprite_Base(x, y);
 		Az_WeatherSprites[i]._bitmap = ImageManager.loadBitmap("img//effects//", type, 0, false);
 		Az_WeatherSprites[i].makeAnimated(1, 4, 20, Math.floor(Math.random() * 4));
 	}
@@ -185,8 +185,8 @@ Az_TimeController.update = function() {
 	let scene = SceneManager._scene;
 	
 	if($gameSwitches.value(2)) {
-		if(!(scene.children[scene.children.length - 4] instanceof Az_Sprite)) {
-			Az_TimeSprites[0] = (new Az_Sprite(Graphics.boxWidth - 250, 0, scene.children.length - 2))
+		if(!(scene.children[scene.children.length - 4] instanceof Sprite_Base)) {
+			Az_TimeSprites[0] = (new Sprite_Base(Graphics.boxWidth - 250, 0, scene.children.length - 2))
 			Az_TimeSprites[0].anchor.x = 0;
 			Az_TimeSprites[0].anchor.y = 0;
 			Az_TimeSprites[0]._bitmap = ImageManager.loadBitmap("img/system/", "clock", 0, true);
@@ -195,7 +195,7 @@ Az_TimeController.update = function() {
 			Az_TimeSprites[1].opacity = 0;
 			Az_TimeSprites[1].open();
 			
-			Az_TimeSprites[2] = new Az_Sprite(Graphics.boxWidth - 195, -24, scene.children.length - 2);
+			Az_TimeSprites[2] = new Sprite_Base(Graphics.boxWidth - 195, -24, scene.children.length - 2);
 			Az_TimeSprites[2].anchor.x = 0;
 			Az_TimeSprites[2].anchor.y = 0;
 			Az_TimeSprites[2]._bitmap = ImageManager.loadBitmap("img/system/", "timeLabel", 0, true);

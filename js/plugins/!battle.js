@@ -44,7 +44,9 @@ Scene_Battle.prototype.createSkillWindow = function() {
 // Runs every frame, updates window positions
 Scene_Battle.prototype.updateWindowPositions = function() {};
 
+/*
 BattleManager.update = function() {
+	console.log(!this.isBusy() && !this.updateEvent());
     if (!this.isBusy() && !this.updateEvent()) {
         switch (this._phase) {
         case 'start':
@@ -65,6 +67,7 @@ BattleManager.update = function() {
         }
     }
 };
+*/
 
 BattleManager.updateEvent = function() {
     switch (this._phase) {
@@ -113,9 +116,10 @@ BattleManager.startBattle = function() {
 
 BattleManager.startInput = function() {
     this._phase = 'input';
-    this._actionBattlers.makeActions();
+    $gameParty.makeActions();
+    $gameTroop.makeActions();
     this.clearActor();
-    if (!$gameParty.canInput()) {
+    if (this._surprise || !$gameParty.canInput()) {
         this.startTurn();
     }
 };
@@ -196,7 +200,7 @@ BattleManager.getNextSubject = function() {
 Game_Action.prototype.setSkill = function(skillId) {
     this._item.setObject($dataSkills[skillId]);
 	if(skillId > 300) {
-		this._length = skillData[skillId - 300][0];
+		this._length = PatternManager.getPattern(skillId - 300).length;
 	} else {
 		this._length = 0;
 	}
@@ -221,38 +225,20 @@ BattleManager.startTurn = function() {
     $gameParty.requestMotionRefresh();
     this._logWindow.startTurn();
 };
+
 BattleManager.updateTurn = function() {
     $gameParty.requestMotionRefresh();
+		console.log("got here");
+    if (!this._subject) {
+        this._subject = this.getNextSubject();
+    }
     if (this._subject) {
         this.processTurn();
     } else {
         this.endTurn();
     }
 };
-BattleManager.processTurn = function() {
-	var scene = SceneManager._scene;
-    var subject = this._subject;
-    var action = subject.currentAction();
-    if (action) {
-        action.prepare();
-		scene._length = action._length;
-		if(subject instanceof Game_Actor) {
-			this.setupChain();
-		} else {
-			$gameTroop.makeActions();
-			scene._shot = action._item._itemId - 300;
-			scene._length = skillData[scene._shot][0];
-		}
-		this.startAction();
-        subject.removeCurrentAction();
-    } else {
-        subject.onAllActionsEnd();
-        this.refreshStatus();
-        this._logWindow.displayAutoAffectedStatus(subject);
-        this._logWindow.displayCurrentState(subject);
-        this._logWindow.displayRegeneration(subject);
-    }
-};
+
 BattleManager.endTurn = function() {
     this._phase = 'turnEnd';
     this._preemptive = false;

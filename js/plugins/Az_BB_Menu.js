@@ -83,7 +83,7 @@ Scene_Menu.prototype.createCommandWindow = function() {
     this._commandWindow.setHandler('item',      this.commandItem.bind(this));
     this._commandWindow.setHandler('skill',     this.onPersonalOk.bind(this));
     this._commandWindow.setHandler('status',    this.onPersonalOk.bind(this));
-    this._commandWindow.setHandler('save',      this.commandSave.bind(this));
+    this._commandWindow.setHandler('drop',      this.commandDrop.bind(this));
     this._commandWindow.setHandler('cancel',    this.popScene.bind(this));
     this.addWindow(this._commandWindow);
 };
@@ -96,6 +96,10 @@ Scene_Menu.prototype.commandItem = function() {
 	this._categoryWindow.show();
     this._categoryWindow.activate();
 	this._categoryWindow.open();
+};
+Scene_Menu.prototype.commandDrop = function() {
+	$gameTemp.reserveCommonEvent(4);
+	this.popScene();
 };
 
 Window_MenuCommand.prototype.numVisibleRows = function() {
@@ -116,8 +120,8 @@ Window_MenuCommand.prototype.makeCommandList = function() {
     if (this.needsCommand('status')) {
         this.addCommand(TextManager.status, 'status');
     }
-	if (this.needsCommand('save')) {
-        this.addCommand(TextManager.save, 'save');
+	if (this.needsCommand('drop')) {
+        this.addCommand("Drop", 'drop');
     }
 };
 
@@ -137,6 +141,7 @@ Window_Name.prototype.constructor = Window_Name;
 
 Window_Name.prototype.initialize = function(x, y) {
 	Window_Command.prototype.initialize.call(this, x, y, 130, this.fittingHeight(4)); 
+	this.y = Graphics.boxHeight - this.height
 }
 
 Window_Name.prototype.makeCommandList = function() {
@@ -150,7 +155,7 @@ Window_Name.prototype.numVisibleRows = function() {
 };
 
 Scene_Menu.prototype.createNameWindow = function() {
-    this._nameWindow = new Window_Name(0, Graphics.boxHeight - lineHeight * 2);
+    this._nameWindow = new Window_Name(0, 0);
 	this.addWindow(this._nameWindow);
 };
 Scene_Menu.prototype.createActorWindow = function() {
@@ -166,14 +171,16 @@ Window_Name.prototype.windowWidth = function() {
 
 // Item window
 Scene_Menu.prototype.createItemWindow = function() {
-    this._itemWindow = new Window_ItemList(this._nameWindow.width + this._categoryWindow.width, Graphics.boxHeight - this._nameWindow.height - Graphics.boxHeight/2, Graphics.boxWidth/2, Graphics.boxHeight/2);
+    this._itemWindow = new Window_ItemList(this._nameWindow.width + this._categoryWindow.width, Graphics.boxHeight - this._nameWindow.height - Graphics.boxHeight * 2 / 3, Graphics.boxWidth - this._nameWindow.width - this._categoryWindow.width, Graphics.boxHeight / 2);
     this._itemWindow.setHandler('ok',     this.onItemOk.bind(this));
-    this._itemWindow.setHandler('cancel', this.backTo.bind(this, this._itemWindow, this._categoryWindow));
-    this.addWindow(this._itemWindow);
+    this._helpWindow = new Window_Help(0, 0)
+	this._itemWindow.setHandler('cancel', this.backTo.bind(this, this._itemWindow, this._categoryWindow));
 	this._itemWindow.hide();
 	this._itemWindow.deactivate();
 	this._itemWindow.close();
+	this._itemWindow.setHelpWindow(new Window_Help(1))
     this.addWindow(this._itemWindow);
+	this.addWindow(this._itemWindow._helpWindow);
 };
 
 Scene_Menu.prototype.onItemOk = function() {
@@ -192,11 +199,39 @@ Scene_Menu.prototype.determineItem = function() {
     var action = new Game_Action($gameParty.menuActor());
     var item = this._itemWindow.item()
     action.setItemObject(item);
-    if (action.isForFriend()) {
-        this.backTo(this._itemWindow, this._actorWindow, false);
+	
+	this.useItem();
+	this._itemWindow.refresh();
+    this._itemWindow.activate();
+    this._itemWindow.redrawCurrentItem();
+};
+
+Scene_Menu.prototype.useItem = function() {
+    this._actor.useItem(this._itemWindow.item());
+    this.applyItem();
+    this._actorWindow.refresh();
+};
+
+Scene_Menu.prototype.applyItem = function() {
+    var action = new Game_Action(this._actor);
+    action.setItemObject(this._itemWindow.item());
+    this.itemTargetActors().forEach(function(target) {
+        for (var i = 0; i < action.numRepeats(); i++) {
+            action.apply(target);
+        }
+    }, this);
+    action.applyGlobal();
+};
+
+Scene_Menu.prototype.itemTargetActors = function() {
+    var action = new Game_Action(this._actor);
+    action.setItemObject(this._itemWindow.item());
+    if (!action.isForFriend()) {
+        return [];
+    } else if (action.isForAll()) {
+        return $gameParty.members();
     } else {
-        this.useItem();
-        this.activateItemWindow();
+        return [$gameParty.members()[this._actorWindow.index()]];
     }
 };
 
@@ -375,6 +410,7 @@ Scene_Journal.prototype.updateInfoWindow = function() {
 	
 	this._infoWindow.drawText('"' + info.name + '"', 0, 0, Graphics.boxWidth, "left");
 	this._infoWindow.drawText(info.rank, 134, 0, Graphics.boxWidth, "left");
+	this._infoWindow.drawTextEx(info.desc, 0, 48);
 	
 	if(info.rep < 550) {
 		this._infoWindow.contents.fillRect(316, 4, 300, 24, "#404040");
@@ -407,12 +443,21 @@ Scene_Journal.prototype.makeRepList = function() {
 					break;
 				}
 			}
-			output.push({name: bondNames[i], rep: myRep, repToNext: repInRank, repReq: reqRep, rank: ranks[myRank]});
+			output.push({name: bondNames[i], rep: myRep, repToNext: repInRank, repReq: reqRep, rank: ranks[myRank], desc: this.getJournalDesc(bondNames[i])});
 		}
 	}
 	
 	return output;
 };
+
+Scene_Journal.prototype.getJournalDesc = function(name) {
+	switch (name) {
+		case "Esper":
+			return "That's me. Not much has happened this year yet. I'll write down anything that does here";
+		case "Luna":
+			return ("Luna's a very kind and energetic girl, and has been \nmy friend nearly my entire life. She can be kind of \noverbearing sometimes, but she always has good \nintentions. My friends have been kind of drifting \napart from each other over the last few months, but \nLuna's been the only one out of us tyring hard to \nkeep us together. However, that kind of energy \nmight end up driving them away even more, instead. Why does Luna do this?");
+	}
+}
 
 // Adds check for journal to Scene_Map
 Scene_Map.prototype.updateScene = function() {
